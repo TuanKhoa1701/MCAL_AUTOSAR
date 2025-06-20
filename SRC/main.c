@@ -1,33 +1,55 @@
-#define PERIPH_BASE 0x40000000UL
-#define APB2PERIPH_BASE (PERIPH_BASE + 0x10000)
-#define RCC_BASE (PERIPH_BASE + 0x21000)
-#define GPIOC_BASE (APB2PERIPH_BASE + 0x1000)
+#include "stm32f10x_rcc.h"          
+#include "stm32f10x.h"       
+#include "stm32f10x_tim.h"
+#include "stm32f10x_gpio.h"  
+#include "DIO.h"
 
-#define RCC_APB2ENR (*(volatile unsigned int *)(RCC_BASE + 0x18))
-#define GPIOC_CRH (*(volatile unsigned int *)(GPIOC_BASE + 0x04))
-#define GPIOC_ODR (*(volatile unsigned int *)(GPIOC_BASE + 0x0C))
-
-void delay(volatile int t)
+void RCC_Config()
 {
-    for (int i = 0; i < t; i++)
-        ;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 }
 
-int main(void)
+void GPIO_Config()
 {
-    // Enable GPIOC clock (IOPCEN bit = 1 << 4)
-    RCC_APB2ENR |= (1 << 4);
+	GPIO_InitTypeDef GPIO_InitStruct;
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_All;	
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	
+	GPIO_Init(GPIOC,&GPIO_InitStruct);
+}
 
-    // Configure PC13 as General purpose output push-pull, max speed 2 MHz (0b0010)
-    GPIOC_CRH &= ~(0xF << 20); // Clear bits 20-23 (PC13)
-    GPIOC_CRH |= (0x2 << 20);  // MODE13 = 0b10 (output 2MHz), CNF13 = 0b00 (push-pull)
+void TIM_Config()
+{
+	TIM_TimeBaseInitTypeDef TIM_InitStruct;
+	
+	TIM_InitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_InitStruct.TIM_Prescaler = 7200 - 1;
+	TIM_InitStruct.TIM_Period = 0xFFFF;
+	TIM_InitStruct.TIM_CounterMode = TIM_CounterMode_Up;
+	
+	TIM_TimeBaseInit(TIM2,&TIM_InitStruct);
+	TIM_Cmd(TIM2,ENABLE);
+}
 
-    while (1)
-    {
-        GPIOC_ODR |= (1 << 13); // LED OFF (active-low)
-        delay(200000);
+void delay_ms(uint32_t time)
+{
+	TIM_SetCounter(TIM2,0);
+	while(TIM_GetCounter(TIM2)< time * 10) {}
+}
 
-        GPIOC_ODR &= ~(1 << 13); // LED ON (active-low)
-        delay(200000);
+uint16_t a;
+Std_VersionInfoType Version;
+int hala() {
+    RCC_Config();
+    GPIO_Config();
+    TIM_Config();
+	while (1) {
+	    Dio_MaskedWritePort(DIO_CHANNEL_C3, 0x00F0, 0x00E0);
+		delay_ms(1000);
     }
 }
+
+

@@ -47,7 +47,7 @@ Reset_Handler:
     blt     2b
 
     bl     SystemInit
-    bl     main
+    bl     hala
     b       .
 // Default exception handlers
     .weak NMI_Handler

@@ -6,7 +6,7 @@ AS = arm-none-eabi-as
 CFLAGS = -mcpu=cortex-m3 -mthumb  -std=c11 -Wall -g -O0 \
 	-IINC \
 	-ILIB \
-	-DSTM32F10X_MD 
+	-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER \
 
 LDFLAGS = -Tlinker.ld -nostartfiles -Wl,--gc-sections
 LIBS = -lm -lc

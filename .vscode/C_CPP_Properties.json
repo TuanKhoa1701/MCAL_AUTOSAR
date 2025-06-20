@@ -6,7 +6,10 @@
                 "${workspaceFolder}/include",
                 "D:/BKEU/HALA/10 2021.10/arm-none-eabi/include",
                 "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Device/Include",
-                "D:/KeilV5/ARM/PACK/ARM/CMSIS/5.3.0/CMSIS/Include"
+                "D:/KeilV5/ARM/PACK/ARM/CMSIS/5.3.0/CMSIS/Include",
+                "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Device/StdPeriph_Driver/inc",
+                "D:/BKEU/HALA/HALA_AUTOMOTIVE/Setup Keil C/ButtonLed",
+                "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Boards/Keil/MCBSTM32C/Middleware/USB/Host/MassStorage/RTE/Device/STM32F107VC"
             ],
             "defines": [
                 "STM32F10X_MD"
