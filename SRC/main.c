@@ -3,7 +3,6 @@
 #include "stm32f10x_tim.h"
 #include "stm32f10x_gpio.h"  
 #include "DIO.h"
-
 void RCC_Config()
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);

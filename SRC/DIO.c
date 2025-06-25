@@ -5,24 +5,24 @@
 
 Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelID) {
     GPIO_TypeDef* GPIO_Port;   /**< Con tr? d?n c?ng GPIO */
-    uint16_t GPIO_Pin;         /**< Chân GPIO c?n d?c tr?ng thái */
+    uint16_t GPIO_Pin;         /**< Chï¿½n GPIO c?n d?c tr?ng thï¿½i */
 
-    // Xác d?nh c?ng GPIO tuong ?ng v?i ChannelID
+    // Xï¿½c d?nh c?ng GPIO tuong ?ng v?i ChannelID
     GPIO_Port = DIO_GET_PORT(ChannelID);
 
-    // N?u không tìm th?y c?ng GPIO h?p l?, tr? v? tr?ng thái th?p (STD_LOW)
+    // N?u khï¿½ng tï¿½m th?y c?ng GPIO h?p l?, tr? v? tr?ng thï¿½i th?p (STD_LOW)
     if (GPIO_Port == NULL) {
         return STD_LOW;
     }
 
-    // Xác d?nh chân GPIO tuong ?ng v?i ChannelID
+    // Xï¿½c d?nh chï¿½n GPIO tuong ?ng v?i ChannelID
     GPIO_Pin = DIO_GetPin(ChannelID);
 
-    // Ð?c tr?ng thái c?a chân GPIO
+    // ï¿½?c tr?ng thï¿½i c?a chï¿½n GPIO
     if (GPIO_ReadInputDataBit(GPIO_Port, GPIO_Pin) == Bit_SET) {
-        return STD_HIGH;        /* N?u chân có m?c logic cao, tr? v? STD_HIGH */
+        return STD_HIGH;        /* N?u chï¿½n cï¿½ m?c logic cao, tr? v? STD_HIGH */
     } else {
-        return STD_LOW;         /* N?u chân có m?c logic th?p, tr? v? STD_LOW */
+        return STD_LOW;         /* N?u chï¿½n cï¿½ m?c logic th?p, tr? v? STD_LOW */
     }
 }
 
@@ -128,9 +128,9 @@ void Dio_GetVersionInfo(Std_VersionInfoType* versioninfo)
 
     versioninfo->vendorID = DIO_VENDOR_ID;
     versioninfo->moduleID = DIO_MODULE_ID;
-    versioninfo->major = STD_TYPES_SW_MAJOR_VERSION;
-    versioninfo->minor = STD_TYPES_SW_MINOR_VERSION;
-    versioninfo->patch = STD_TYPES_SW_PATCH_VERSION;
+    versioninfo->sw_major_version = STD_TYPES_SW_MAJOR_VERSION;
+    versioninfo->sw_minor_version = STD_TYPES_SW_MINOR_VERSION;
+    versioninfo->sw_patch_version = STD_TYPES_SW_PATCH_VERSION;
 }
 Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)
 {

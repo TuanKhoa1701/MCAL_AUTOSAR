@@ -109,9 +109,9 @@ typedef uint8_t boolean;
 typedef struct {
     uint16_t vendorID;
     uint16_t moduleID;
-    uint8_t major;
-    uint8_t minor;
-    uint8_t patch;
+    uint8_t sw_major_version;
+    uint8_t sw_minor_version;
+    uint8_t sw_patch_version;
 } Std_VersionInfoType;
 /*
     * ===========================================================
