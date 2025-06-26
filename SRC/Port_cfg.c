@@ -72,3 +72,4 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
 };
 
+
