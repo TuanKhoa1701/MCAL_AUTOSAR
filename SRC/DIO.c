@@ -1,68 +1,110 @@
-#include "stm32f10x.h"
-#include "stm32f10x_gpio.h"
-#include "stm32f10x_rcc.h" 
+/***************************************************************************
+ * @file DIO.c
+ * @brief têp thực hiện cho module DIO trong AUTOSAR.
+ * @details Têp này chứa các hàm để đọc và ghi các kênh GPIO, cũng như các hàm để quản lý nhóm kênh và cổng.
+ * @version 1.0.0
+****************************************************************************/
+
+
 #include "DIO.h"
+/***************************************************************************
+ * @brief Hàm để ghi mức độ của một kênh DIO.
+ * @details Hàm này nhận vào ID của kênh và mức độ cần ghi (STD_HIGH hoặc STD_LOW).
+ *          Nó sẽ xác định cổng GPIO tương ứng với kênh và ghi mức độ vào chân GPIO tương ứng.
+ * @param[in] ChannelId ID của kênh DIO cần ghi.
+ * @param[in] Level Mức độ cần ghi (STD_HIGH hoặc STD_LOW).
+***************************************************************************/
 
-Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelID) {
-    GPIO_TypeDef* GPIO_Port;   /**< Con tr? d?n c?ng GPIO */
-    uint16_t GPIO_Pin;         /**< Ch�n GPIO c?n d?c tr?ng th�i */
-
-    // X�c d?nh c?ng GPIO tuong ?ng v?i ChannelID
-    GPIO_Port = DIO_GET_PORT(ChannelID);
-
-    // N?u kh�ng t�m th?y c?ng GPIO h?p l?, tr? v? tr?ng th�i th?p (STD_LOW)
-    if (GPIO_Port == NULL) {
-        return STD_LOW;
-    }
-
-    // X�c d?nh ch�n GPIO tuong ?ng v?i ChannelID
-    GPIO_Pin = DIO_GetPin(ChannelID);
-
-    // �?c tr?ng th�i c?a ch�n GPIO
-    if (GPIO_ReadInputDataBit(GPIO_Port, GPIO_Pin) == Bit_SET) {
-        return STD_HIGH;        /* N?u ch�n c� m?c logic cao, tr? v? STD_HIGH */
-    } else {
-        return STD_LOW;         /* N?u ch�n c� m?c logic th?p, tr? v? STD_LOW */
-    }
-}
-
-void Dio_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
+void DIO_WriteChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
 {
     GPIO_TypeDef *GPIO_Port;
-    uint16_t GIPO_Pin;
+    uint8_t GIPO_Pin;
 
-    GPIO_Port = DIO_GET_PORT(ChannelId);
+    GPIO_Port = GPIO_GetPort(ChannelId);
     if(GPIO_Port == NULL)
     {
+        Det_ReportError(DIO_MODULE_ID, 0, DIO_WRITECHANNEL_ID, DIO_E_PARAM_INVALID_CHANNEL);
         return; // Handle error appropriately
     }
-    GIPO_Pin = DIO_GetPin(ChannelId);
+    GIPO_Pin = GPIO_GetPin(ChannelId);
     
     if(Level == STD_HIGH)
     {
-        GPIO_SetBits(GPIO_Port, GIPO_Pin);
+        Set_OutputDataBit(GPIO_Port, GIPO_Pin);
     }
     else
     {
-        GPIO_ResetBits(GPIO_Port, GIPO_Pin);
+        Clear_OutputDataBit(GPIO_Port, GIPO_Pin);
     }
 }
+
+/***************************************************************************
+ * @brief Hàm để đọc mức độ của một kênh DIO.
+ * @details Hàm này nhận vào ID của kênh và trả về mức độ hiện tại của chân GPIO tương ứng.
+ * @param[in] ChannelId ID của kênh DIO cần đọc.
+ * @return Mức độ hiện tại của kênh (STD_HIGH hoặc STD_LOW).
+ ****************************************************************************/
+
+void DIO_ReadChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
+{
+    GPIO_TypeDef *GPIO_Port;
+    uint8_t GIPO_Pin;
+
+    if(Level == NULL)
+    {
+        Det_ReportError(DIO_MODULE_ID, 0, DIO_READCHANNEL_ID, DIO_E_PARAM_POINTER);
+        return; // Handle error appropriately
+    }
+
+    GPIO_Port = GPIO_GetPort(ChannelId);
+    if(GPIO_Port == NULL)
+    {
+        Det_ReportError(DIO_MODULE_ID, 0, DIO_READCHANNEL_ID, DIO_E_PARAM_INVALID_CHANNEL);
+        return; // Handle error appropriately
+    }
+    
+    GIPO_Pin = GPIO_GetPin(ChannelId);
+    
+    if(Read_InputDataBit(GPIO_Port, GIPO_Pin) == STD_HIGH)
+    {
+        Level = STD_HIGH;
+    }
+    else
+    {
+        Level = STD_LOW;
+    }
+}
+/***************************************************************************
+ * @brief Hàm để đọc mức độ của một cổng DIO.
+ * @details Hàm này nhận vào ID của cổng và trả về mức độ hiện tại của toàn bộ cổng GPIO.
+ * @param[in] PortId ID của cổng DIO cần đọc.
+ * @return Mức độ hiện tại của cổng (Dio_PortLevelType).
+ ***************************************************************************/
 Dio_PortLevelType DIO_ReadPort(Dio_PortType PortId)
 {
     GPIO_TypeDef *GPIO_Port;
 
-    GPIO_Port = DIO_GET_PORT(PortId);
+    GPIO_Port = GPIO_GetPort(PortId);
     if(GPIO_Port == NULL)
     {
         return 0; // Return a default value or handle error appropriately
     }
-    return(Dio_PortLevelType)GPIO_ReadInputData(GPIO_Port) ;
+    
+    return (Dio_PortLevelType)Read_InputData(GPIO_Port);
 }
-void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level)
+/***************************************************************************
+ * @brief Hàm để ghi mức độ của một cổng DIO.
+ * @details Hàm này nhận vào ID của cổng và mức độ cần ghi (Dio_PortLevelType).
+ *          Nó sẽ xác định cổng GPIO tương ứng với cổng và ghi mức độ vào toàn bộ cổng GPIO.
+ * @param[in] PortId ID của cổng DIO cần ghi.
+ * @param[in] Level Mức độ cần ghi (Dio_PortLevelType).
+ ***************************************************************************/
+
+void DIO_WritePort(Dio_PortType PortId, Dio_PortLevelType Level)
 {
     GPIO_TypeDef *GPIO_Port;
 
-    GPIO_Port = DIO_GET_PORT(PortId);
+    GPIO_Port = GPIO_GetPort(PortId);
     if(GPIO_Port == NULL)
     {
         Det_ReportError(DIO_MODULE_ID, 0, DIO_WRITEPORT_ID, DIO_E_PARAM_INVALID_PORT);
@@ -71,7 +113,15 @@ void Dio_WritePort(Dio_PortType PortId, Dio_PortLevelType Level)
     
     GPIO_Write(GPIO_Port, Level);
 }
-Dio_PortLevelType Dio_ReadChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr)
+
+/*************************************************************************** 
+    * @brief Hàm để đọc mức độ của một nhóm kênh DIO.
+    * @details Hàm này nhận vào một con trỏ đến cấu trúc Dio_ChannelGroupType, xác định cổng GPIO, mặt nạ và độ lệch của nhóm kênh.
+    *          Nó sẽ đọc mức độ của các kênh trong nhóm và trả về giá trị mức độ của nhóm kênh.
+    * @param[in] ChannelGroupIdPtr Con trỏ đến cấu trúc Dio_ChannelGroupType chứa thông tin về nhóm kênh.
+    * @return Mức độ của nhóm kênh (Dio_PortLevelType).
+****************************************************************************/
+Dio_PortLevelType DIO_ReadChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr)
 {
     GPIO_TypeDef *GPIO_Port;
     uint16_t mask;
@@ -82,7 +132,7 @@ Dio_PortLevelType Dio_ReadChannelGroup(const Dio_ChannelGroupType* ChannelGroupI
         return 0; // Return a default value or handle error appropriately
     }
 
-    GPIO_Port = DIO_GET_PORT(ChannelGroupIdPtr->port);
+    GPIO_Port = GPIO_GetPort(ChannelGroupIdPtr->port);
     if(GPIO_Port == NULL)
     {
         return 0; // Return a default value or handle error appropriately
@@ -91,10 +141,17 @@ Dio_PortLevelType Dio_ReadChannelGroup(const Dio_ChannelGroupType* ChannelGroupI
     mask = ChannelGroupIdPtr->mask;
     offset = ChannelGroupIdPtr->offset;
 
-    return (Dio_PortLevelType)((GPIO_ReadInputData(GPIO_Port) & mask) >> offset);
+    return (Dio_PortLevelType)((Read_InputData(GPIO_Port) & mask) >> offset);
 }
+/**************************************************************************** 
+ * @brief Hàm để ghi mức độ của một nhóm kênh DIO.
+ * @details Hàm này nhận vào một con trỏ đến cấu trúc Dio_ChannelGroupType, xác định cổng GPIO, mặt nạ và độ lệch của nhóm kênh.
+ *          Nó sẽ ghi mức độ vào các kênh trong nhóm theo mặt nạ và độ lệch đã chỉ định.
+ * @param[in] ChannelGroupIdPtr Con trỏ đến cấu trúc Dio_ChannelGroupType chứa thông tin về nhóm kênh.
+ * @param[in] Level Mức độ cần ghi (Dio_PortLevelType).
+ * ****************************************************************************/
 
-void Dio_WriteChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr, Dio_PortLevelType Level)
+void DIO_WriteChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr, Dio_PortLevelType Level)
 {
     GPIO_TypeDef *GPIO_Port;
     uint16_t mask;
@@ -105,7 +162,7 @@ void Dio_WriteChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr, Dio_Po
         return; // Handle error appropriately
     }
 
-    GPIO_Port = DIO_GET_PORT(ChannelGroupIdPtr->port);
+    GPIO_Port = GPIO_GetPort(ChannelGroupIdPtr->port);
     if(GPIO_Port == NULL)
     {
         return; // Handle error appropriately
@@ -114,12 +171,19 @@ void Dio_WriteChannelGroup(const Dio_ChannelGroupType* ChannelGroupIdPtr, Dio_Po
     mask = ChannelGroupIdPtr->mask;
     offset = ChannelGroupIdPtr->offset;
 
-    Dio_PortLevelType currentLevel = GPIO_ReadInputData(GPIO_Port) & ~mask;
+    Dio_PortLevelType currentLevel = Read_InputData(GPIO_Port) & ~mask;
     currentLevel |= (Level << offset) & mask;
 
     GPIO_Write(GPIO_Port, currentLevel);
 }
-void Dio_GetVersionInfo(Std_VersionInfoType* versioninfo)
+
+/***************************************************************************
+ * @brief Hàm để lấy thông tin phiên bản của module DIO.
+ * @details Hàm này điền thông tin phiên bản vào cấu trúc Std_VersionInfoType.
+ * @param[out] versioninfo Con trỏ đến cấu trúc Std_VersionInfoType để lưu thông tin phiên bản.
+ ***************************************************************************/
+
+void DIO_GetVersionInfo(Std_VersionInfoType* versioninfo)
 {
     if(versioninfo == NULL)
     {
@@ -128,35 +192,62 @@ void Dio_GetVersionInfo(Std_VersionInfoType* versioninfo)
 
     versioninfo->vendorID = DIO_VENDOR_ID;
     versioninfo->moduleID = DIO_MODULE_ID;
-    versioninfo->major = STD_TYPES_SW_MAJOR_VERSION;
-    versioninfo->minor = STD_TYPES_SW_MINOR_VERSION;
-    versioninfo->patch = STD_TYPES_SW_PATCH_VERSION;
+    versioninfo->major = DIO_SW_MAJOR_VERSION;
+    versioninfo->minor = DIO_SW_MINOR_VERSION;
+    versioninfo->patch = DIO_SW_PATCH_VERSION;
 }
-Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId)
+
+/***************************************************************************
+ * @brief Hàm để lật trạng thái của một kênh DIO.
+ * @details Hàm này nhận vào ID của kênh và lật trạng thái của chân GPIO tương ứng (STD_HIGH <-> STD_LOW).
+ * @param[in] ChannelId ID của kênh DIO cần lật trạng thái.
+ * @return Trạng thái mới của kênh (STD_HIGH hoặc STD_LOW).
+ ***************************************************************************/
+
+Dio_LevelType DIO_FlipChannel(Dio_ChannelType ChannelId)
 {
     GPIO_TypeDef *GPIO_Port;
-    uint16_t GIPO_Pin;
+    uint8_t GIPO_Pin;
 
-    GPIO_Port = DIO_GET_PORT(ChannelId);
+    GPIO_Port = GPIO_GetPort(ChannelId);
     if(GPIO_Port == NULL)
     {
         return STD_LOW; // Return a default value or handle error appropriately
     }
-    GIPO_Pin = DIO_GetPin(ChannelId);
+    GIPO_Pin = GPIO_GetPin(ChannelId);
 
-   GPIO_Port ->ODR ^= GIPO_Pin;
+    if(Read_InputDataBit(GPIO_Port, GIPO_Pin) == STD_HIGH)
+    {
+        DIO_WriteChannel(ChannelId, STD_LOW);
+        return STD_LOW;
+    }
+    else
+    {
+        DIO_WriteChannel(ChannelId, STD_HIGH);
+        return STD_HIGH;
+    }
 }
-void Dio_MaskedWritePort(Dio_PortType PortId, Dio_PortLevelType Level, Dio_PortLevelType Mask)
+
+/***************************************************************************
+ * @brief Hàm để ghi mức độ của một cổng DIO với mặt nạ.
+ * @details Hàm này nhận vào ID của cổng, mức độ cần ghi và mặt nạ để xác định các chân cần ghi.
+ *          Nó sẽ ghi mức độ vào các chân tương ứng với mặt nạ đã chỉ định.
+ * @param[in] PortId ID của cổng DIO cần ghi.
+ * @param[in] Level Mức độ cần ghi (Dio_PortLevelType).
+ * @param[in] Mask Mặt nạ để xác định các chân cần ghi.
+ ***************************************************************************/
+
+void DIO_MaskedWritePort(Dio_PortType PortId, Dio_PortLevelType Level, Dio_PortLevelType Mask)
 {
     GPIO_TypeDef *GPIO_Port;
 
-    GPIO_Port = DIO_GET_PORT(PortId);
+    GPIO_Port = GPIO_GetPort(PortId);
     if(GPIO_Port == NULL)
     {
         return; // Handle error appropriately
     }
     
-    Dio_PortLevelType currentLevel = GPIO_ReadInputData(GPIO_Port) & ~Mask;
+    Dio_PortLevelType currentLevel = Read_InputData(GPIO_Port) & ~Mask;
     currentLevel |= (Level & Mask);
 
     GPIO_Write(GPIO_Port, currentLevel);
