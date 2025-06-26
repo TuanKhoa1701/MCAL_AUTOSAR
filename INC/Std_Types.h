@@ -1,46 +1,54 @@
+/*
+    * file: Std_Types.h
+    * @brief  Định nghĩa các kiểu dữ liệu tiêu chuẩn trong AUTOSAR.
+    * @details  Đây là tệp tiêu đề cho các kiểu dữ liệu tiêu chuẩn được sử dụng trong AUTOSAR, bao gồm các kiểu dữ liệu nguyên thủy, 
+    *           kiểu trả về tiêu chuẩn, giá trị logic, và các định nghĩa khác.
+    * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
+    * @author Nguyen Tuan Khoa
+*/
 #ifndef STD_TYPES_H
 #define STD_TYPES_H
 // This file is part of the AUTOSAR standard.
 #include <stdint.h>
-
 /* ==============================================
     *version information
   *=================================================/
- * @brief th�ng tin v? phi�n b?n c?a Std_Types.h
- * @details c�c d?nh nghia v? vi?c phi�n b?n gi�p d? d�ng qu?n l� v� b?o tr� m� ngu?n.
+/********************************************* 
+ * @brief thông tin về phiên bản của Std_Types.h
+ * @details các định nghĩa về việc phiên bản giúp dễ dàng quản lý và bảo trì mã nguồn.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 **********************************************/
 #define STD_TYPES_SW_MAJOR_VERSION  1U
 #define STD_TYPES_SW_MINOR_VERSION  0U
 #define STD_TYPES_SW_PATCH_VERSION  0U
-#define DIO_VENDOR_ID 0x123
-#define DIO_MODULE_ID 0x234
 /* ==============================================================
  * Standard Return Types
  *===============================================================/
- * @brief  ki?u tr? v? ti�u chu?n trong AUTOSAR.
- * @details �u?c s? d?ng d? b�o c�o k?t qu? c?a c�c h�m trong AUTOSAR, v?i c�c gi� tr? nhu E_OK v� E_NOT_OK
+/*
+ * @brief  kiểu trả về tiêu chuẩn trong AUTOSAR.
+ * @details Được sử dụng để báo cáo kết quả của các hàm trong AUTOSAR, với các giá trị như E_OK và E_NOT_OK
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 */
 typedef uint8_t Std_ReturnType;
+
 #define E_OK        0x00U
 #define E_NOT_OK    0x01U
 /*============================================================
  * Standard Boolean Values
  *===========================================================/
- * @brief  �?nh nghia gi� tr? logic cao v� logic th?p.
- * @details �u?c s? d?ng d? bi?u di?n tr?ng th�i c?a c�c bi?n, v?i c�c gi� tr? nhu STD_HIGH v� STD_LOW.
+/********************************************************* 
+ * @brief  Định nghĩa giá trị logic cao và logic thấp.
+ * @details Được sử dụng để biểu diễn trạng thái của các biến, với các giá trị như STD_HIGH và STD_LOW.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
-*/
-#define STD_HIGH    0x01
-#define STD_LOW     0x00
-
+************************************************************/
+#define STD_HIGH    0x01U
+#define STD_LOW     0x00U
 /* ===========================================================
  * Standard NULL Pointer Definition
  * ===========================================================*/
 /********************************************************* 
- * @brief  �?nh nghia con tr? NULL.
- * @details �u?c s? d?ng d? bi?u th? r?ng m?t con tr? kh�ng tr? d?n b?t k? d?a ch? h?p l? n�o.
+ * @brief  Định nghĩa con trỏ NULL.
+ * @details Được sử dụng để biểu thị rằng một con trỏ không trỏ đến bất kỳ địa chỉ hợp lệ nào.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 **********************************************************/
 #ifndef NULL
@@ -51,8 +59,8 @@ typedef uint8_t Std_ReturnType;
  * Standard Type Definitions
  * ===========================================================*/
 /*************************************************************** 
- * @brief  �?nh nghia c�c ki?u d? li?u ti�u chu?n trong AUTOSAR.
- * @details Bao g?m c�c ki?u d? li?u nguy�n th?y nhu uint8_t, sint16_t, vuint32_t, vuint64_t, vfloat32_t, vfloat64_t.
+ * @brief  Định nghĩa các kiểu dữ liệu tiêu chuẩn trong AUTOSAR.
+ * @details Bao gồm các kiểu dữ liệu nguyên thủy như uint8_t, sint16_t, vuint32_t, vuint64_t, vfloat32_t, vfloat64_t.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 ****************************************************************/
 typedef unsigned char uint8_t;
@@ -82,8 +90,8 @@ typedef volatile sint64_t vsint64_t;
     */
 /******************************************************************* 
  * @typedef boolean
- * @brief ki?u d? li?u boolean
- * @details S? d?ng bi?u di?n gi� tr? d�ng/sai trong AUTOSAR.
+ * @brief kiểu dữ liệu boolean
+ * @details Sử dụng biểu diễn giá trị đúng/sai trong AUTOSAR.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 ********************************************************************/
 
@@ -102,8 +110,8 @@ typedef uint8_t boolean;
     */
 /*******************************************************************
  * @struct Std_VersionInfoType
- * @brief C?u tr�c ch?a th�ng tin phi�n b?n c?a m?t module trong AUTOSAR.
- * @details Bao g?m c�c tru?ng nhu vendorID, moduleID, major, minor v� patch d? qu?n l� phi�n b?n.
+ * @brief Cấu trúc chứa thông tin phiên bản của một module trong AUTOSAR.
+ * @details Bao gồm các trường như vendorID, moduleID, major, minor và patch để quản lý phiên bản.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 *********************************************************************/
 typedef struct {
@@ -120,8 +128,8 @@ typedef struct {
     */
 /*******************************************************************
  * @macro Det_ReportError
- * @brief Macro d? b�o c�o l?i trong AUTOSAR.
- * @details �u?c s? d?ng d? ghi l?i c�c l?i x?y ra trong qu� tr�nh th?c thi c?a h? th?ng, v?i c�c tham s? nhu moduleId, instanceId, apiId v� errorId.
+ * @brief Macro để báo cáo lỗi trong AUTOSAR.
+ * @details Được sử dụng để ghi lại các lỗi xảy ra trong quá trình thực thi của hệ thống, với các tham số như moduleId, instanceId, apiId và errorId.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 ********************************************************************/
 #define Det_ReportError(moduleId, instanceId, apiId, errorId) 
@@ -132,8 +140,8 @@ typedef struct {
     */
 /*******************************************************************
  * @macro STD_ACTIVE, STD_IDLE, STD_ON, STD_OFF
- * @brief C�c d?nh nghia tr?ng th�i ti�u chu?n trong AUTOSAR.
- * @details �u?c s? d?ng d? bi?u di?n tr?ng th�i ho?t d?ng, nh�n r?i, b?t v� t?t c?a c�c th�nh ph?n trong h? th?ng.
+ * @brief Các định nghĩa trạng thái tiêu chuẩn trong AUTOSAR.
+ * @details Được sử dụng để biểu diễn trạng thái hoạt động, nhàn rỗi, bật và tắt của các thành phần trong hệ thống.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 ********************************************************************/
 
