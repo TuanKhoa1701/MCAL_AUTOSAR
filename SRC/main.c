@@ -3,22 +3,9 @@
 #include "stm32f10x_tim.h"
 #include "stm32f10x_gpio.h"  
 #include "DIO.h"
-void RCC_Config()
-{
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-}
+#include "Port.h"
+#include "Port_cfg.h"
 
-void GPIO_Config()
-{
-	GPIO_InitTypeDef GPIO_InitStruct;
-	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_All;	
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	
-	GPIO_Init(GPIOC,&GPIO_InitStruct);
-}
 
 void TIM_Config()
 {
@@ -42,12 +29,14 @@ void delay_ms(uint32_t time)
 uint16_t a;
 Std_VersionInfoType Version;
 int hala() {
-    RCC_Config();
-    GPIO_Config();
     TIM_Config();
+	    Port_ConfigType portConfig = {
+        .PinConfigs = PortCfg_Pins,
+        .PinCount = PortCfg_PinsCount
+    };
+    Port_Init(&portConfig);
 	while (1) {
-	    Dio_MaskedWritePort(DIO_CHANNEL_C3, 0x00F0, 0x00E0);
-		delay_ms(1000);
+		
     }
 }
 

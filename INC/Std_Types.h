@@ -11,20 +11,20 @@
 // This file is part of the AUTOSAR standard.
 #include <stdint.h>
 /* ==============================================
-    *version information
+    version information
   *=================================================/
-/********************************************* 
  * @brief thông tin về phiên bản của Std_Types.h
  * @details các định nghĩa về việc phiên bản giúp dễ dàng quản lý và bảo trì mã nguồn.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
 **********************************************/
+#define DIO_VENDOR_ID  123U
+#define DIO_MODULE_ID  456U
 #define STD_TYPES_SW_MAJOR_VERSION  1U
 #define STD_TYPES_SW_MINOR_VERSION  0U
 #define STD_TYPES_SW_PATCH_VERSION  0U
 /* ==============================================================
  * Standard Return Types
  *===============================================================/
-/*
  * @brief  kiểu trả về tiêu chuẩn trong AUTOSAR.
  * @details Được sử dụng để báo cáo kết quả của các hàm trong AUTOSAR, với các giá trị như E_OK và E_NOT_OK
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.
@@ -36,7 +36,7 @@ typedef uint8_t Std_ReturnType;
 /*============================================================
  * Standard Boolean Values
  *===========================================================/
-/********************************************************* 
+ ********************************************************* 
  * @brief  Định nghĩa giá trị logic cao và logic thấp.
  * @details Được sử dụng để biểu diễn trạng thái của các biến, với các giá trị như STD_HIGH và STD_LOW.
  * @note This file is part of the AUTOSAR standard and should be used in compliance with the AUTOSAR guidelines.

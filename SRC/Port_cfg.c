@@ -63,10 +63,10 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
         .PortNum = PORT_ID_C,
         .PinNum = 13,
         .Mode = PORT_PIN_MODE_DIO,
-        .Direction = PORT_PIN_IN,
+        .Direction = PORT_PIN_OUT,
         .DirectionChangeable = 1,
-        .Level = PORT_PIN_LEVEL_LOW,
-        .Pull = PORT_PIN_PULL_DOWN,
+        .Level = PORT_PIN_LEVEL_HIGH,
+        .Pull = PORT_PIN_PULL_UP,
         .ModeChangeable = 1
     }
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
