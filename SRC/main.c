@@ -36,10 +36,7 @@ int hala() {
     Port_Init(&portConfig);
 	TIM_Config();
 	while (1) {
-	Port_ApplyPinConfig(&PortCfg_Pins[0]); // Cấu hình chân PA0
-	Port_ApplyPinConfig(&PortCfg_Pins[1]); // Cấu hình chân PA1
-	Port_ApplyPinConfig(&PortCfg_Pins[2]); // Cấu hình chân PB0
-	Port_ApplyPinConfig(&PortCfg_Pins[3]); // Cấu hình chân PC13
+	
 		DIO_FlipChannel(DIO_CHANNEL_C13); // Đảo trạng thái chân PA0
 		delay_ms(500); // Đợi 500ms
     }
