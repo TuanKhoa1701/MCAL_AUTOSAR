@@ -23,6 +23,7 @@
  *     Static/Internal Variables
  * =============================== */
 static uint8_t Port_Initialized = 0;  /* Biến trạng thái xác định Port đã init chưa */
+static Port_PinConfigType Port_RuntimePins[PortCfg_PinsCount];
 
 /* ===============================
  *      Internal Helper Function
@@ -88,6 +89,7 @@ void Port_Init(const Port_ConfigType* ConfigPtr) {
     if (ConfigPtr == NULL) return;
 
     for (uint16_t i = 0; i < ConfigPtr->PinCount; i++) {
+        Port_RuntimePins[i] = ConfigPtr->PinConfigs[i];
         Port_ApplyPinConfig(&ConfigPtr->PinConfigs[i]);
     }
     Port_Initialized = 1;
@@ -105,9 +107,8 @@ void Port_SetPinDirection(Port_PinType Pin, Port_PinDirectionType Direction) {
     if (Pin >= PortCfg_PinsCount) return;
     if (!PortCfg_Pins[Pin].DirectionChangeable) return;
 
-    Port_PinConfigType* pinCfg = (Port_PinConfigType*)&PortCfg_Pins[Pin]; // cast bỏ const để update runtime (nếu cần)
-    pinCfg->Direction = Direction;
-    Port_ApplyPinConfig(pinCfg);
+    Port_RuntimePins[Pin].Direction = Direction;
+    Port_ApplyPinConfig( &Port_RuntimePins[Pin]);
 }
 
 /**********************************************************

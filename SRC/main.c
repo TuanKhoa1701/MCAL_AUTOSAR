@@ -42,6 +42,7 @@ int hala() {
 	Port_SetPinDirection(3, PORT_PIN_IN); // Đặt chân C13 là OUTPUT
 	//DIO_FlipChannel(DIO_CHANNEL_C13); // Đảo trạng thái chân PA0
 	//Port_RefreshPortDirection();
+	Port_RefreshPortDirection(); // Làm tươi lại chiều các chân không cho đổi runtime
 	delay_ms(500); // Đợi 500ms
     }
 }
