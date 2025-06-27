@@ -5,7 +5,10 @@
 #include "DIO.h"
 #include "Port.h"
 #include "Port_cfg.h"
-
+void RCC_Config()
+{
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+}
 
 void TIM_Config()
 {
@@ -26,9 +29,9 @@ void delay_ms(uint32_t time)
 	while(TIM_GetCounter(TIM2)< time * 10) {}
 }
 
-uint16_t a;
-Std_VersionInfoType Version;
+
 int hala() {
+	RCC_Config(); // Cấu hình RCC cho TIM2
 	    Port_ConfigType portConfig = {
         .PinConfigs = PortCfg_Pins,
         .PinCount = PortCfg_PinsCount
@@ -36,9 +39,10 @@ int hala() {
     Port_Init(&portConfig);
 	TIM_Config();
 	while (1) {
-	
-		DIO_FlipChannel(DIO_CHANNEL_C13); // Đảo trạng thái chân PA0
-		delay_ms(500); // Đợi 500ms
+	Port_SetPinDirection(3, PORT_PIN_IN); // Đặt chân C13 là OUTPUT
+	//DIO_FlipChannel(DIO_CHANNEL_C13); // Đảo trạng thái chân PA0
+	//Port_RefreshPortDirection();
+	delay_ms(500); // Đợi 500ms
     }
 }
 

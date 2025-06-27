@@ -13,11 +13,12 @@
 /* ===============================
  *           Includes
  * =============================== */
+#include "stm32f10x.h"
 #include "Port.h"
 #include "Port_cfg.h"
 #include "stm32f10x_rcc.h"
 #include <stddef.h>
-
+#include "stm32f10x_gpio.h"
 /* ===============================
  *     Static/Internal Variables
  * =============================== */

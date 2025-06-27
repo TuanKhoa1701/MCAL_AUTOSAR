@@ -65,7 +65,7 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
         .Mode = PORT_PIN_MODE_DIO,
         .Direction = PORT_PIN_OUT,
         .DirectionChangeable = 1,
-        .Level = PORT_PIN_LEVEL_HIGH,
+        .Level = PORT_PIN_LEVEL_LOW,
         .Pull = PORT_PIN_PULL_UP,
         .ModeChangeable = 1
     }

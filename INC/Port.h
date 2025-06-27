@@ -147,6 +147,5 @@ void Port_GetVersionInfo(Std_VersionInfoType* versioninfo);
  * @param[in] Mode   Mode chức năng cần set
  */
 void Port_SetPinMode(Port_PinType Pin, Port_PinModeType Mode);
-static void Port_ApplyPinConfig(const Port_PinConfigType* pinCfg) ;
 
 #endif /* PORT_H */
