@@ -30,6 +30,7 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
         .PortNum = PORT_ID_A,
         .PinNum = 0,
         .Mode = PORT_PIN_MODE_DIO,
+        .Speed = PORT_SPEED_2Mhz, // Tốc độ 2MHz
         .Direction = PORT_PIN_OUT,
         .DirectionChangeable = 1,
         .Level = PORT_PIN_LEVEL_HIGH,
@@ -41,6 +42,7 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
         .PortNum = PORT_ID_A,
         .PinNum = 1,
         .Mode = PORT_PIN_MODE_DIO,
+        .Speed = PORT_SPEED_10Mhz, // Tốc độ 10MHz
         .Direction = PORT_PIN_IN,
         .DirectionChangeable = 0,
         .Level = PORT_PIN_LEVEL_LOW, /* Không ảnh hưởng nếu là input */
@@ -50,8 +52,9 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     /* PB0: DIO, Output, Không đổi chiều, mặc định LOW, không pull */
     {
         .PortNum = PORT_ID_B,
-        .PinNum = 0,
+        .PinNum = DIO_CHANNEL_0, // Giả sử PB0 là DIO_CHANNEL_0
         .Mode = PORT_PIN_MODE_DIO,
+        .Speed = PORT_SPEED_50Mhz, // Tốc độ 50MHz
         .Direction = PORT_PIN_OUT,
         .DirectionChangeable = 0,
         .Level = PORT_PIN_LEVEL_LOW,
@@ -63,6 +66,7 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
         .PortNum = PORT_ID_C,
         .PinNum = 13,
         .Mode = PORT_PIN_MODE_DIO,
+        .Speed = PORT_SPEED_2Mhz, // Tốc độ 2MHz
         .Direction = PORT_PIN_OUT,
         .DirectionChangeable = 1,
         .Level = PORT_PIN_LEVEL_LOW,
@@ -71,5 +75,5 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     }
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
 };
-
-
+* Tổng số chân cấu hình */
+const uint32 PortCfg_PinsCount = sizeof(PortCfg_Pins) / sizeof(Port_PinConfigType);

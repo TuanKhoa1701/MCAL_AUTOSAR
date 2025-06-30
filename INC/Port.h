@@ -25,6 +25,13 @@
 #define PORT_ID_D   3   /* GPIOD */
 
 /**********************************************************
+ * Định nghĩa tần số hoạt động của chân GPIO 
+ **********************************************************/
+#define PORT_SPEED_2Mhz     0 
+#define PORT_SPEED_10Mhz    1  
+#define PORT_SPEED_50Mhz    2   
+
+/**********************************************************
  * Macro xác định con trỏ PORT theo PortNum
  **********************************************************/
 #define PORT_GET_PORT(PortNum) \
@@ -88,6 +95,7 @@ typedef struct {
     uint8_t  PortNum;            /**< 0=A, 1=B, 2=C, 3=D */
     uint8_t  PinNum;             /**< 0..15 */
     Port_PinModeType Mode;     /**< Chế độ chức năng */
+    uint8_t Speed;             /**< Tốc độ GPIO (2MHz, 10MHz, 50MHz) */
     Port_PinDirectionType Direction;  /**< Chiều ban đầu */
     uint8_t  DirectionChangeable;/**< 1=cho phép đổi chiều runtime */
     uint8_t  Level;              /**< Giá trị mức ban đầu nếu output */
