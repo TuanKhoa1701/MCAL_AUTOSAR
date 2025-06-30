@@ -24,7 +24,7 @@
  * - ModeChangeable: 1 = Cho phép đổi mode runtime
  **********************************************************/
 
-const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
+const Port_PinConfigType PortCfg_Pins[] = {
     /* PA0: DIO, Output, Được phép đổi chiều & mode runtime, mặc định HIGH, không pull */
     {
         .PortNum = PORT_ID_A,
@@ -76,3 +76,4 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
 };
 
+const uint32_t PortCfg_PinsCount = sizeof(PortCfg_Pins) / sizeof(Port_PinConfigType);
