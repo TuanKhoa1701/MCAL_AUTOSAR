@@ -16,11 +16,6 @@
 #include "Port.h"   /* Bao gồm các kiểu dữ liệu chuẩn của Port Driver */
 
 /**********************************************************
- * Số lượng chân Port được cấu hình (tùy chỉnh theo dự án)
- **********************************************************/
-#define PortCfg_PinsCount    4U
-
-/**********************************************************
  * Mảng cấu hình chi tiết cho từng chân GPIO
  * (khai báo extern, định nghĩa cụ thể ở port_cfg.c)
  **********************************************************/
