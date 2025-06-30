@@ -49,13 +49,12 @@ static void Port_ApplyPinConfig(const Port_PinConfigType* pinCfg) {
     GPIO_InitStruct.GPIO_Pin = pinMask;
     
     /* Cấu hình tốc độ chân GPIO */
-    Switch(pinCfg->Speed) {
+    switch(pinCfg->Speed) {
         case PORT_SPEED_2Mhz: GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;   break;
         case PORT_SPEED_10Mhz: GPIO_InitStruct.GPIO_Speed = GPIO_Speed_10MHz; break;
         case PORT_SPEED_50Mhz: GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz; break;
         default: GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz; break; // Mặc định 2MHz
     }
-    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
 
     /* Cấu hình mode - chỉ lấy ví dụ mode DIO */
     if (pinCfg->Mode == PORT_PIN_MODE_DIO) {

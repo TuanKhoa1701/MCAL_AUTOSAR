@@ -15,7 +15,6 @@
 #include "stm32f10x.h"
 #include "Std_Types.h"          /* Các kiểu dữ liệu chuẩn AUTOSAR */
 #include "stm32f10x_tim.h"      /* Thư viện SPL: Timer PWM cho STM32F103 */
-#include "Pwm_LCfg.h"            /* File cấu hình PWM (extern) */
 
 /**********************************************************
  * Định nghĩa các kiểu dữ liệu của PWM Driver
@@ -84,7 +83,7 @@ typedef struct {
  **********************************************************/
 typedef struct {
     const Pwm_ChannelConfigType* Channels;    /**< Danh sách các cấu hình kênh */
-    uint8_t                        NumChannels; /**< Số lượng kênh PWM */
+    uint8_t                      NumChannels; /**< Số lượng kênh PWM */
 } Pwm_ConfigType;
 
 /**********************************************************

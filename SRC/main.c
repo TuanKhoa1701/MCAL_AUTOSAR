@@ -5,6 +5,8 @@
 #include "DIO.h"
 #include "Port.h"
 #include "Port_cfg.h"
+#include "PWM.h"
+#include "Pwm_LCfg.h"
 void RCC_Config()
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);

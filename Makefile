@@ -12,7 +12,7 @@ LDFLAGS = -Tlinker.ld -nostartfiles -Wl,--gc-sections
 LIBS = -lm -lc
 
 # Source files
-SRC = $(wildcard SRC/*.c)
+SRC = $(wildcard SRC/*.c) 
 
 STARTUP = STARTUP/startup_stm32f10x_md.s
 

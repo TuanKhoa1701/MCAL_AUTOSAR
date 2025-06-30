@@ -52,7 +52,7 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     /* PB0: DIO, Output, Không đổi chiều, mặc định LOW, không pull */
     {
         .PortNum = PORT_ID_B,
-        .PinNum = DIO_CHANNEL_0, // Giả sử PB0 là DIO_CHANNEL_0
+        .PinNum = 0, 
         .Mode = PORT_PIN_MODE_DIO,
         .Speed = PORT_SPEED_50Mhz, // Tốc độ 50MHz
         .Direction = PORT_PIN_OUT,
@@ -75,5 +75,4 @@ const Port_PinConfigType PortCfg_Pins[PortCfg_PinsCount] = {
     }
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
 };
-* Tổng số chân cấu hình */
-const uint32 PortCfg_PinsCount = sizeof(PortCfg_Pins) / sizeof(Port_PinConfigType);
+
