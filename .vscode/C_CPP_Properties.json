@@ -9,8 +9,7 @@
                 "D:/KeilV5/ARM/PACK/ARM/CMSIS/5.3.0/CMSIS/Include",
                 "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Device/StdPeriph_Driver/inc",
                 "D:/BKEU/HALA/VS-code/INC",
-                "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Boards/Keil/MCBSTM32C/Middleware/USB/Host/MassStorage/RTE/Device/STM32F107VC",
-                "D:/BKEU/HALA/HALA_AUTOMOTIVE/AUTOMATIVE/AUTOMATIVE/Bài 14_Autosar/Port"
+                "D:/KeilV5/ARM/PACK/Keil/STM32F1xx_DFP/2.4.1/Boards/Keil/MCBSTM32C/Middleware/USB/Host/MassStorage/RTE/Device/STM32F107VC"
             ],
             "defines": [
                 "STM32F10X_MD"
