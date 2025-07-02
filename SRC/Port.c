@@ -19,6 +19,7 @@
 #include "stm32f10x_rcc.h"
 #include <stddef.h>
 #include "stm32f10x_gpio.h"
+
 /* ===============================
  *     Static/Internal Variables
  * =============================== */
