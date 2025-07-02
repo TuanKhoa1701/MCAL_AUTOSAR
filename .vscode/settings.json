@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "port_cfg.h": "c"
+        "port_cfg.h": "c",
+        "stm32f10x.h": "c",
+        "pwm_lcfg.h": "c",
+        "pwm.h": "c"
     }
 }

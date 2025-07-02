@@ -68,10 +68,11 @@ typedef enum {
  **********************************************************/
 typedef struct {
     TIM_TypeDef*              TIMx;             /**< Timer sử dụng (TIM1, TIM2, ...) */
-    uint8_t                     channel;          /**< Channel số (1, 2, 3, 4) */
+    uint16_t                  Prescaler;        /**< Prescaler cho Timer (nếu cần) */
+    uint8_t                   channel;          /**< Channel số (1, 2, 3, 4) */
     Pwm_ChannelClassType      classType;        /**< Loại kênh */
     Pwm_PeriodType            defaultPeriod;    /**< Chu kỳ mặc định */
-    uint16_t                    defaultDutyCycle; /**< Duty Cycle mặc định (0x0000 - 0x8000) */
+    uint16_t                  defaultDutyCycle; /**< Duty Cycle mặc định (0x0000 - 0x8000) */
     Pwm_OutputStateType       polarity;         /**< Đầu ra ban đầu */
     Pwm_OutputStateType       idleState;        /**< Trạng thái khi idle */
     void (*NotificationCb)(void);               /**< Callback notification (optional) */

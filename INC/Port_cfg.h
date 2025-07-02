@@ -25,4 +25,5 @@
  * (khai báo extern, định nghĩa cụ thể ở port_cfg.c)
  **********************************************************/
 extern const Port_PinConfigType PortCfg_Pins[];
+const uint32_t PortCfg_PinsCount = sizeof(PortCfg_Pins) / sizeof(Port_PinConfigType);
 #endif /* PORT_CFG_H */

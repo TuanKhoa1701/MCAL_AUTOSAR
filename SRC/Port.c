@@ -14,12 +14,11 @@
  *           Includes
  * =============================== */
 #include "stm32f10x.h"
+#include "stm32f10x_rcc.h"
+#include "stm32f10x_gpio.h"
+#include <stddef.h>
 #include "Port.h"
 #include "Port_cfg.h"
-#include "stm32f10x_rcc.h"
-#include <stddef.h>
-#include "stm32f10x_gpio.h"
-
 /* ===============================
  *     Static/Internal Variables
  * =============================== */
@@ -57,9 +56,10 @@ static void Port_ApplyPinConfig(const Port_PinConfigType* pinCfg) {
         default: GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz; break; // Mặc định 2MHz
     }
 
-    /* Cấu hình mode - chỉ lấy ví dụ mode DIO */
-    if (pinCfg->Mode == PORT_PIN_MODE_DIO) {
-        if (pinCfg->Direction == PORT_PIN_OUT) {
+    switch (pinCfg->Mode)
+    {
+    case PORT_PIN_MODE_DIO:
+         if (pinCfg->Direction == PORT_PIN_OUT) {
             GPIO_InitStruct.GPIO_Mode = (pinCfg->Pull == PORT_PIN_PULL_UP) ? GPIO_Mode_Out_PP : GPIO_Mode_Out_OD;
         } else {
             if (pinCfg->Pull == PORT_PIN_PULL_UP)
@@ -69,6 +69,18 @@ static void Port_ApplyPinConfig(const Port_PinConfigType* pinCfg) {
             else
                 GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
         }
+        break;
+    case PORT_PIN_MODE_PWM:
+        GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP; // Chế độ Alternate Function Push Pull
+        break;
+    case PORT_PIN_MODE_SPI:
+        GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP; // Chế độ Alternate Function Push Pull
+        break;
+    case PORT_PIN_MODE_ADC:
+        GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AIN; // Chế độ Analog Input
+        break;
+    default:
+        break;
     }
     /* Các mode khác như ADC, PWM, SPI ... mở rộng thêm tùy MCU */
 

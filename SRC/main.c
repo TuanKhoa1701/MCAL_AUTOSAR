@@ -33,17 +33,15 @@ void delay_ms(uint32_t time)
 
 
 int hala() {
-	RCC_Config(); // Cấu hình RCC cho TIM2
+	RCC_Config(); 
+	TIM_Config();
 	    Port_ConfigType portConfig = {
         .PinConfigs = PortCfg_Pins,
         .PinCount = PortCfg_PinsCount
     };
     Port_Init(&portConfig);
-	TIM_Config();
 	while (1) {
 	Port_SetPinDirection(3, PORT_PIN_IN); // Đặt chân C13 là OUTPUT
-	//DIO_FlipChannel(DIO_CHANNEL_C13); // Đảo trạng thái chân PA0
-	//Port_RefreshPortDirection();
 	Port_RefreshPortDirection(); // Làm tươi lại chiều các chân không cho đổi runtime
 	delay_ms(500); // Đợi 500ms
     }
