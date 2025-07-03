@@ -18,12 +18,11 @@
 /**********************************************************
  * Số lượng chân Port được cấu hình (tùy chỉnh theo dự án)
  **********************************************************/
-//#define PortCfg_PinsCount    4U
+#define PortCfg_PinsCount    4U
 
 /**********************************************************
  * Mảng cấu hình chi tiết cho từng chân GPIO
  * (khai báo extern, định nghĩa cụ thể ở port_cfg.c)
  **********************************************************/
 extern const Port_PinConfigType PortCfg_Pins[];
-const uint32_t PortCfg_PinsCount = sizeof(PortCfg_Pins) / sizeof(Port_PinConfigType);
 #endif /* PORT_CFG_H */
