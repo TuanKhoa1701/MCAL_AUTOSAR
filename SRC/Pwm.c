@@ -44,7 +44,7 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
 
         /* Cấu hình chu kỳ cho timer (ARR) */
         channelConfig->TIMx->ARR = channelConfig->defaultPeriod;
-
+               
         /* Giá trị compare ban đầu theo duty cycle mặc định */
         uint16_t compareValue = ((uint32_t)channelConfig->defaultPeriod * channelConfig->defaultDutyCycle) >> 15;
         switch (channelConfig->channel) {
