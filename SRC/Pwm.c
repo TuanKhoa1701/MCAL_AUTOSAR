@@ -8,7 +8,9 @@
  * @date    2024-06-27
  * @author  HALA Academy
  **********************************************************/
-
+#include "stm32f10x.h"
+#include "stm32f10x_rcc.h"
+#include "stm32f10x_tim.h"
 #include "Pwm.h"
 #include <stddef.h>
 
@@ -54,8 +56,9 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
         }
 
         /* Cấu hình timer */
-        TIM_InitTypeDef TIM_InitStructure;
-        TIM_InitStructure.TIM_Prescaler = channelConfig->prescaler; // Prescaler
+    
+        TIM_TimeBaseInitTypeDef TIM_InitStructure;
+        TIM_InitStructure.TIM_Prescaler = channelConfig->Prescaler; // Prescaler
         TIM_InitStructure.TIM_CounterMode = TIM_CounterMode_Up; // Chế độ đếm lên
         TIM_InitStructure.TIM_Period = channelConfig->defaultPeriod-1; // Chu kỳ (ARR)
         TIM_InitStructure.TIM_ClockDivision = TIM_CKD_DIV1; // Phân chia xung đồng hồ

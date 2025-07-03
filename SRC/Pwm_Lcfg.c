@@ -38,6 +38,7 @@ const Pwm_ChannelConfigType PwmChannelsConfig[] = {
     {
         .TIMx             = TIM3,
         .channel          = 2,
+        .Prescaler        = 0,             // Không dùng prescaler  s
         .classType        = PWM_VARIABLE_PERIOD,
         .defaultPeriod    = 999,
         .defaultDutyCycle = 0x0000,
