@@ -93,10 +93,7 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
         /* Bật timer */
         TIM_ARRPreloadConfig(channelConfig->TIMx, ENABLE); // Bật preload cho ARR
         TIM_Cmd(channelConfig->TIMx, ENABLE);
-
-        /* Bật timer */
-        TIM_Cmd(channelConfig->TIMx, ENABLE);
-
+        
         /* Nếu là TIM1 (advanced), enable main output */
         if (channelConfig->TIMx == TIM1) {
             TIM_CtrlPWMOutputs(TIM1, ENABLE);
