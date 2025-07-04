@@ -60,7 +60,7 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
         TIM_TimeBaseInitTypeDef TIM_InitStructure;
         TIM_InitStructure.TIM_Prescaler = channelConfig->Prescaler; // Prescaler
         TIM_InitStructure.TIM_CounterMode = TIM_CounterMode_Up; // Chế độ đếm lên
-        TIM_InitStructure.TIM_Period = channelConfig->defaultPeriod-1; // Chu kỳ (ARR)
+        TIM_InitStructure.TIM_Period = channelConfig->defaultPeriod; // Chu kỳ (ARR)
         TIM_InitStructure.TIM_ClockDivision = TIM_CKD_DIV1; // Phân chia xung đồng hồ
         TIM_InitStructure.TIM_RepetitionCounter = 0; // Chỉ cần 0 cho chế độ PWM
         TIM_TimeBaseInit(channelConfig->TIMx, &TIM_InitStructure); // Khởi tạo timer
