@@ -23,7 +23,7 @@ void Pwm_Channel0_Notification(void)
 
 /* ==== Cấu hình từng kênh PWM ==== */
 const Pwm_ChannelConfigType PwmChannelsConfig[] = {
-    /* Channel 0: PA0 - TIM2_CH1, có callback */
+    /* Channel 0: PA0 - TIM2_CH1, có callback 
     {
         .TIMx             = TIM2,
         .channel          = 1,
@@ -34,6 +34,7 @@ const Pwm_ChannelConfigType PwmChannelsConfig[] = {
         .idleState        = PWM_LOW,
         .NotificationCb   = Pwm_Channel0_Notification   // Callback không NULL!
     },
+    */
     /* Channel 1: PA7 - TIM3_CH2, không dùng callback */
     {
         .TIMx             = TIM3,

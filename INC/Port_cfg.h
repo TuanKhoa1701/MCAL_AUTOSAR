@@ -18,7 +18,7 @@
 /**********************************************************
  * Số lượng chân Port được cấu hình (tùy chỉnh theo dự án)
  **********************************************************/
-#define PortCfg_PinsCount    4U
+#define PortCfg_PinsCount    5U
 
 /**********************************************************
  * Mảng cấu hình chi tiết cho từng chân GPIO

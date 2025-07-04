@@ -71,7 +71,19 @@ const Port_PinConfigType PortCfg_Pins[] = {
         .DirectionChangeable = 1,
         .Level = PORT_PIN_LEVEL_LOW,
         .Pull = PORT_PIN_PULL_UP,
-        .ModeChangeable = 1
+        .ModeChangeable = 1    
+    },
+    /*PA7: PWM, OUTPUT*/
+    {
+        .PortNum = PORT_ID_A,
+        .PinNum = 7,
+        .Mode = PORT_PIN_MODE_PWM,
+        .Speed = PORT_SPEED_50Mhz,
+        .Direction = PORT_PIN_OUT,
+        .DirectionChangeable =0,
+        .Pull = PORT_PIN_PULL_NONE,
+        .Level = PORT_PIN_LEVEL_LOW,
+        .ModeChangeable =0
     }
     /* ... Thêm cấu hình cho các chân khác tại đây ... */
 };
