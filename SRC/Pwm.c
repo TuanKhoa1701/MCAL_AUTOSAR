@@ -22,7 +22,8 @@
 static const Pwm_ConfigType* Pwm_CurrentConfigPtr = NULL;
 
 /* Trạng thái đã khởi tạo của driver PWM */
-static uint8_t Pwm_IsInitialized = 0;
+static uint8_t Pwm_IsInitialized =0;
+static uint8_t PWM_ISINITIALISED = 0;
 
 /* ===============================
  *        Function Definitions
@@ -36,7 +37,6 @@ static uint8_t Pwm_IsInitialized = 0;
  **********************************************************/
 void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
 {
-    if (Pwm_IsInitialized) return;
     if (ConfigPtr == NULL) return;
 
     Pwm_CurrentConfigPtr = ConfigPtr;
@@ -102,7 +102,7 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
             TIM_CtrlPWMOutputs(TIM1, ENABLE);
         }
     }
-    Pwm_IsInitialized = 1;
+    PWM_ISINITIALISED = 1;
 }
 
 /**********************************************************
@@ -110,7 +110,7 @@ void Pwm_Init(const Pwm_ConfigType* ConfigPtr)
  **********************************************************/
 void Pwm_DeInit(void)
 {
-    if (!Pwm_IsInitialized) return;
+    if (!PWM_ISINITIALISED) return;
     for (uint8_t i = 0; i < Pwm_CurrentConfigPtr->NumChannels; i++)
     {
         const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[i];
@@ -119,7 +119,7 @@ void Pwm_DeInit(void)
             TIM_CtrlPWMOutputs(TIM1, DISABLE);
         }
     }
-    Pwm_IsInitialized = 0;
+    PWM_ISINITIALISED = 0;
 }
 
 /**********************************************************
@@ -131,7 +131,7 @@ void Pwm_DeInit(void)
  **********************************************************/
 void Pwm_SetDutyCycle(Pwm_ChannelType ChannelNumber, uint16_t DutyCycle)
 {
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     uint16_t period = channelConfig->TIMx->ARR;
     uint16_t compareValue = ((uint32_t)period * DutyCycle) >> 15;
@@ -154,7 +154,7 @@ void Pwm_SetDutyCycle(Pwm_ChannelType ChannelNumber, uint16_t DutyCycle)
  **********************************************************/
 void Pwm_SetPeriodAndDuty(Pwm_ChannelType ChannelNumber, Pwm_PeriodType Period, uint16_t DutyCycle)
 {
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     if (channelConfig->classType != PWM_VARIABLE_PERIOD) return;
     channelConfig->TIMx->ARR = Period;
@@ -173,7 +173,7 @@ void Pwm_SetPeriodAndDuty(Pwm_ChannelType ChannelNumber, Pwm_PeriodType Period, 
  **********************************************************/
 void Pwm_SetOutputToIdle(Pwm_ChannelType ChannelNumber)
 {
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     switch (channelConfig->channel) {
     case 1: channelConfig->TIMx->CCR1 = 0; break;
@@ -190,7 +190,7 @@ void Pwm_SetOutputToIdle(Pwm_ChannelType ChannelNumber)
  **********************************************************/
 Pwm_OutputStateType Pwm_GetOutputState(Pwm_ChannelType ChannelNumber)
 {
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return PWM_LOW;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return PWM_LOW;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     uint16_t isOutputEnabled = 0;
     switch (channelConfig->channel) {
@@ -211,7 +211,7 @@ Pwm_OutputStateType Pwm_GetOutputState(Pwm_ChannelType ChannelNumber)
  **********************************************************/
 void Pwm_DisableNotification(Pwm_ChannelType ChannelNumber)
 {
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     switch (channelConfig->channel) {
     case 1: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC1, DISABLE); break;
@@ -232,7 +232,7 @@ void Pwm_DisableNotification(Pwm_ChannelType ChannelNumber)
 void Pwm_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationType Notification)
 {
     (void)Notification; // Hiện tại chưa phân biệt cạnh, có thể mở rộng nếu dùng input capture
-    if (!Pwm_IsInitialized || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
+    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
     const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
     switch (channelConfig->channel) {
     case 1: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC1, ENABLE); break;

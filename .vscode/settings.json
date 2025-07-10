@@ -4,6 +4,8 @@
         "port_cfg.h": "c",
         "stm32f10x.h": "c",
         "pwm_lcfg.h": "c",
-        "pwm.h": "c"
+        "pwm.h": "c",
+        "port.h": "c",
+        "stm32f10x_rcc.h": "c"
     }
 }

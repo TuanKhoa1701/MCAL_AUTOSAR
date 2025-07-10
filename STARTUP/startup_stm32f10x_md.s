@@ -23,6 +23,40 @@ g_pfnVectors:
     .word   0
     .word   0
 
+                ; External Interrupts
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0
+    .word   0                
+    .word   0                
+    .word   TIM3_IRQHandler            ; TIM3
+    .weak   TIM3_IRQHandler
+    .thumb_set TIM3_IRQHandler, Default_Handler
+
     .section .text.Reset_Handler
     .weak Reset_Handler
     .type Reset_Handler, %function

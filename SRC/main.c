@@ -8,6 +8,10 @@
 #include "PWM.h"
 #include "Pwm_LCfg.h"
 #include <stdint.h>
+/*
+extern uint8_t Pwm_IsInitialized;
+Pwm_IsInitialized = 0;
+*/
 void RCC_Config()
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
@@ -48,15 +52,15 @@ int hala() {
     uint8_t dir1 = 0;
 	while (1)
 	{
-	        /* Tăng giảm duty channel 0 (PA0 - TIM2_CH1) */
+	        /* Tang gi?m duty channel 0 (PA0 - TIM2_CH1) */
         //Pwm_SetDutyCycle(0, dutyCh0);
 
-        /* Tăng giảm duty channel 1 (PA7 - TIM3_CH2) */
-        Pwm_SetDutyCycle(1, dutyCh1);
+        /* Tang gi?m duty channel 1 (PA7 - TIM3_CH2) */
+    Pwm_SetDutyCycle(1, 0x4000);
 
 		delay_ms(10);
 
-        /* Đổi hướng khi đạt 0 hoặc max 
+        // Ð?i hu?ng khi d?t 0 ho?c max 
         if (dir0) {
             dutyCh0 += 0x0200;
             if (dutyCh0 >= 0x8000) {
@@ -68,8 +72,8 @@ int hala() {
             else dutyCh0 = 0;
             if (dutyCh0 == 0) dir0 = 1;
         }
-            */
-        /* Channel 1 thì làm ngược lại (fade lệch pha) */
+            
+        // Channel 1 thì làm ngu?c l?i (fade l?ch pha) 
         if (dir1) {
             dutyCh1 += 0x0200;
             if (dutyCh1 >= 0x8000) {
@@ -81,5 +85,6 @@ int hala() {
             else dutyCh1 = 0;
             if (dutyCh1 == 0) dir1 = 1;
         }
+        
     }
 }

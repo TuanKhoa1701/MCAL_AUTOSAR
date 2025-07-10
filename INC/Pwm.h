@@ -62,6 +62,13 @@ typedef enum {
     PWM_FIXED_PERIOD_SHIFTED = 0x02    /**< PWM period cố định, shifted */
 } Pwm_ChannelClassType;
 
+/********************************************************* 
+ * @typedef Pwm_NotificationCbType
+ * @brief   Kiểu hàm callback cho thông báo ngắt PWM
+ * @details Hàm này sẽ được gọi khi có ngắt từ kênh PWM.
+**********************************************************/
+typedef void (*Pwm_NotificationCbType)  (void); /**< Kiểu hàm callback cho thông báo ngắt PWM */
+
 /**********************************************************
  * @struct  Pwm_ChannelConfigType
  * @brief   Cấu trúc cấu hình cho từng kênh PWM
@@ -75,7 +82,8 @@ typedef struct {
     uint16_t                  defaultDutyCycle; /**< Duty Cycle mặc định (0x0000 - 0x8000) */
     Pwm_OutputStateType       polarity;         /**< Đầu ra ban đầu */
     Pwm_OutputStateType       idleState;        /**< Trạng thái khi idle */
-    void (*NotificationCb)(void);               /**< Callback notification (optional) */
+    uint8_t                   notificationEnabled; /**< Cờ bật thông báo ngắt (0 hoặc 1) */
+    Pwm_NotificationCbType    NotificationCb;              /**< Callback notification (optional) */
 } Pwm_ChannelConfigType;
 
 /**********************************************************
@@ -86,7 +94,26 @@ typedef struct {
     const Pwm_ChannelConfigType* Channels;    /**< Danh sách các cấu hình kênh */
     uint8_t                      NumChannels; /**< Số lượng kênh PWM */
 } Pwm_ConfigType;
-
+/********************************************************** 
+ * @enum    Pwm_EdgeNotificationType
+ * @brief   Loại cạnh để thông báo ngắt PWM
+ * @details Các loại cạnh có thể thông báo ngắt:
+ *          - PWM_RISING_EDGE: Thông báo khi có cạnh lên
+ *         - PWM_FALLING_EDGE: Thông báo khi có cạnh xuống
+ *         - PWM_BOTH_EDGES: Thông báo khi có cả hai cạnh
+***********************************************************/
+/**********************************************************
+ * @brief hàm khởi tạo ngắt PWM
+ * @details Hàm này sẽ được gọi để bật thông báo ngắt cho kênh PWM.
+ * @param[in] ChannelNumber: Số thứ tự kênh PWM
+ * @param[in] Notification: Loại cạnh cần thông báo
+ **********************************************************/
+void PWM_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationType Notification);
+typedef  enum{
+    PWM_RISING_EDGE = 0x01,
+    PWM_FALLING_EDGE = 0x02,
+    PWM_BOTH_EDGES = PWM_FALLING_EDGE | PWM_RISING_EDGE
+} PWM_EdgeNotificationType;
 /**********************************************************
  * Khai báo các API của PWM Driver (chuẩn AUTOSAR)
  **********************************************************/
@@ -148,5 +175,5 @@ void Pwm_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationT
  * @param   versioninfo: Con trỏ tới cấu trúc Std_VersionInfoType để nhận thông tin phiên bản
  **********************************************************/
 void Pwm_GetVersionInfo(Std_VersionInfoType* versioninfo);
-
+extern const Pwm_ChannelConfigType PwmChannelsConfig[];
 #endif /* PWM_H */
