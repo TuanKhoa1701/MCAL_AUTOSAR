@@ -13,7 +13,8 @@
 #include "stm32f10x_tim.h"
 #include "Pwm.h"
 #include <stddef.h>
-
+#include "Pwm_Lcfg.h" // Cấu hình kênh PWM
+#include "misc.h"
 /* ===============================
  *     Static Variables & Defines
  * =============================== */
@@ -223,27 +224,6 @@ void Pwm_DisableNotification(Pwm_ChannelType ChannelNumber)
 }
 
 /**********************************************************
- * @brief   Bật thông báo ngắt cạnh lên/xuống/cả 2 cho kênh PWM
- * @details Nếu sử dụng callback hoặc ngắt, bật tại đây.
- *
- * @param[in] ChannelNumber Số thứ tự kênh PWM
- * @param[in] Notification  Loại cạnh cần thông báo
- **********************************************************/
-void Pwm_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationType Notification)
-{
-    (void)Notification; // Hiện tại chưa phân biệt cạnh, có thể mở rộng nếu dùng input capture
-    if (!PWM_ISINITIALISED || ChannelNumber >= Pwm_CurrentConfigPtr->NumChannels) return;
-    const Pwm_ChannelConfigType* channelConfig = &Pwm_CurrentConfigPtr->Channels[ChannelNumber];
-    switch (channelConfig->channel) {
-    case 1: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC1, ENABLE); break;
-    case 2: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC2, ENABLE); break;
-    case 3: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC3, ENABLE); break;
-    case 4: TIM_ITConfig(channelConfig->TIMx, TIM_IT_CC4, ENABLE); break;
-    default: break;
-    }
-}
-
-/**********************************************************
  * @brief   Lấy thông tin phiên bản của driver PWM
  * @details Trả về thông tin phiên bản module PWM.
  *
@@ -257,4 +237,36 @@ void Pwm_GetVersionInfo(Std_VersionInfoType* versioninfo)
     versioninfo->sw_major_version = 1;
     versioninfo->sw_minor_version = 0;
     versioninfo->sw_patch_version = 0;
+}
+/********************************************************** 
+ * @brief   Bật thông báo ngắt cho kênh PWM
+ * @details Bật thông báo ngắt cho kênh PWM với loại cạnh cụ thể
+ * @param[in] ChannelID Số thứ tự kênh PWM
+ * @param[in] Notification Loại cạnh cần thông báo (rising, falling, both edges)
+***********************************************************/
+void Pwm_EnableNotification(Pwm_ChannelType ChannelID, PWM_EdgeNotificationType Notification)
+{
+ if (ChannelID >= PwmDriverConfig.NumChannels) return;
+    Pwm_ChannelConfigType *cfg = (Pwm_ChannelConfigType*)&PwmChannelsConfig[ChannelID];
+    TIM_TypeDef *TIMx = cfg->TIMx;
+    uint16_t cc_flag = TIM_IT_CC1 << (cfg->channel - 1);
+    cfg->notificationEnabled = 1;
+
+    if (Notification & PWM_RISING_EDGE)
+        TIM_ITConfig(TIMx, cc_flag, ENABLE);
+    if (Notification & PWM_FALLING_EDGE)
+        TIM_ITConfig(TIMx, TIM_IT_Update, ENABLE);
+
+    IRQn_Type irq = (TIMx == TIM2)? TIM2_IRQn :
+                    (TIMx == TIM3)? TIM3_IRQn :
+                    (TIMx == TIM4)? TIM4_IRQn : (IRQn_Type)0xFF;
+    if (irq != (IRQn_Type)0xFF) {
+        NVIC_InitTypeDef n;
+        n.NVIC_IRQChannel = irq;
+        n.NVIC_IRQChannelPreemptionPriority = 1;
+        n.NVIC_IRQChannelSubPriority = 0;
+        n.NVIC_IRQChannelCmd = ENABLE;
+        NVIC_Init(&n);
+    }
+
 }

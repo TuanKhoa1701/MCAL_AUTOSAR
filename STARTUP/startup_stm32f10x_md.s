@@ -23,7 +23,7 @@ g_pfnVectors:
     .word   0
     .word   0
 
-                ; External Interrupts
+                @  External Interrupts
     .word   0
     .word   0
     .word   0
@@ -53,7 +53,7 @@ g_pfnVectors:
     .word   0
     .word   0                
     .word   0                
-    .word   TIM3_IRQHandler            ; TIM3
+    .word   TIM3_IRQHandler             @IM3
     .weak   TIM3_IRQHandler
     .thumb_set TIM3_IRQHandler, Default_Handler
 

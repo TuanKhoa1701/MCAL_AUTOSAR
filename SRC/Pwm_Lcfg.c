@@ -10,10 +10,12 @@
 #include "Pwm.h"
 #include "Pwm_Lcfg.h"
 #include <stdio.h> // Nếu muốn test bằng printf hoặc debug trong callback
+#include "stm32f10x_gpio.h" // Để sử dụng GPIO trong callback
 
 /* ==== Ví dụ hàm callback cho PWM notification ==== */
 void Pwm_Channel0_Notification(void)
 {
+    GPIOC->ODR ^= GPIO_Pin_13; // Toggles LED
     // Ví dụ: đặt breakpoint, bật LED, debug, v.v.
     // printf("PWM Channel 0 interrupt/callback!\n");
     // GPIO_SetBits(GPIOC, GPIO_Pin_13);
@@ -23,7 +25,7 @@ void Pwm_Channel0_Notification(void)
 }
 void PWM_isrHandler(TIM_TypeDef* TIMx)
 {
-    for(uint8_t i = 0 ; i < PWM_NUM_CHANNELS;i++)
+    for(uint8_t i = 0 ; i < PwmDriverConfig.NumChannels;i++)
     {
         const Pwm_ChannelConfigType* cfg = &PwmChannelsConfig[i];
     // Kiểm tra xem TIMx có phải là TIM2 hay TIM3 không
@@ -54,6 +56,7 @@ const Pwm_ChannelConfigType PwmChannelsConfig[] = {
     {
         .TIMx             = TIM2,
         .channel          = 1,
+        .Prescaler        = 0,
         .classType        = PWM_VARIABLE_PERIOD,
         .defaultPeriod    = 999,          // 1ms (72MHz/72/1000)
         .defaultDutyCycle = 0x0000,       // Duty 0%

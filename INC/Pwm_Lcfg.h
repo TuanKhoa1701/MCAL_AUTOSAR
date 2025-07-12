@@ -8,8 +8,8 @@
  **********************************************************/
 #ifndef PWM_LCFG_H
 #define PWM_LCFG_H
-#define PWM_NUM_CHANNELS (sizeof(PwmChannelsConfig)/sizeof(PwmChannelsConfig[0])) // Số lượng kênh PWM trong cấu hình
 #include "Pwm.h"
+
 /**********************************************************
  * @brief   Hàm callback cho kênh PWM Channel 0
  * @details Hàm này sẽ được gọi khi có ngắt từ kênh PWM Channel 0.
@@ -25,5 +25,6 @@ void PWM_isrHandler(TIM_TypeDef* TIMx);
  * @brief   Biến cấu hình tổng cho PWM Driver
  **********************************************************/
 extern const Pwm_ConfigType PwmDriverConfig;
+extern const Pwm_ChannelConfigType PwmChannelsConfig[];
 
 #endif /* PWM_LCFG_H */

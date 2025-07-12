@@ -43,16 +43,6 @@ typedef enum {
 } Pwm_OutputStateType;
 
 /**********************************************************
- * @enum    Pwm_EdgeNotificationType
- * @brief   Loại cạnh để thông báo ngắt PWM
- **********************************************************/
-typedef enum {
-    PWM_RISING_EDGE  = 0x00,   /**< Cạnh lên */
-    PWM_FALLING_EDGE = 0x01,   /**< Cạnh xuống */
-    PWM_BOTH_EDGES   = 0x02    /**< Cả hai cạnh */
-} Pwm_EdgeNotificationType;
-
-/**********************************************************
  * @enum    Pwm_ChannelClassType
  * @brief   Kiểu kênh PWM (chu kỳ cố định, biến đổi, v.v.)
  **********************************************************/
@@ -103,12 +93,9 @@ typedef struct {
  *         - PWM_BOTH_EDGES: Thông báo khi có cả hai cạnh
 ***********************************************************/
 /**********************************************************
- * @brief hàm khởi tạo ngắt PWM
- * @details Hàm này sẽ được gọi để bật thông báo ngắt cho kênh PWM.
- * @param[in] ChannelNumber: Số thứ tự kênh PWM
- * @param[in] Notification: Loại cạnh cần thông báo
+ * @enum    Pwm_EdgeNotificationType
+ * @brief   Loại cạnh để thông báo ngắt PWM
  **********************************************************/
-void PWM_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationType Notification);
 typedef  enum{
     PWM_RISING_EDGE = 0x01,
     PWM_FALLING_EDGE = 0x02,
@@ -165,15 +152,14 @@ void Pwm_DisableNotification(Pwm_ChannelType ChannelNumber);
 
 /**********************************************************
  * @brief   Bật thông báo ngắt cạnh lên/xuống/cả 2 cho kênh PWM
- * @param   ChannelNumber: Số thứ tự kênh PWM
- * @param   Notification:  Loại cạnh cần thông báo
+ * @param[in]   ChannelNumber: Số thứ tự kênh PWM
+ * @param[in]   Notification:  Loại cạnh cần thông báo
  **********************************************************/
-void Pwm_EnableNotification(Pwm_ChannelType ChannelNumber, Pwm_EdgeNotificationType Notification);
+void Pwm_EnableNotification(Pwm_ChannelType ChannelNumber, PWM_EdgeNotificationType Notification);
 
 /**********************************************************
  * @brief   Lấy thông tin phiên bản của driver PWM
  * @param   versioninfo: Con trỏ tới cấu trúc Std_VersionInfoType để nhận thông tin phiên bản
  **********************************************************/
 void Pwm_GetVersionInfo(Std_VersionInfoType* versioninfo);
-extern const Pwm_ChannelConfigType PwmChannelsConfig[];
 #endif /* PWM_H */
