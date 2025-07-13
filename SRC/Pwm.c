@@ -23,7 +23,6 @@
 static const Pwm_ConfigType* Pwm_CurrentConfigPtr = NULL;
 
 /* Trạng thái đã khởi tạo của driver PWM */
-static uint8_t Pwm_IsInitialized =0;
 static uint8_t PWM_ISINITIALISED = 0;
 
 /* ===============================
@@ -250,7 +249,7 @@ void Pwm_EnableNotification(Pwm_ChannelType ChannelID, PWM_EdgeNotificationType 
     Pwm_ChannelConfigType *cfg = (Pwm_ChannelConfigType*)&PwmChannelsConfig[ChannelID];
     TIM_TypeDef *TIMx = cfg->TIMx;
     uint16_t cc_flag = TIM_IT_CC1 << (cfg->channel - 1);
-    cfg->notificationEnabled = 1;
+    // cfg->notificationEnabled = 1;
 
     if (Notification & PWM_RISING_EDGE)
         TIM_ITConfig(TIMx, cc_flag, ENABLE);

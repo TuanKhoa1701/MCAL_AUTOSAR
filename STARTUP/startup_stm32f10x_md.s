@@ -52,10 +52,9 @@ g_pfnVectors:
     .word   0
     .word   0
     .word   0                
-    .word   0                
-    .word   TIM3_IRQHandler             @IM3
-    .weak   TIM3_IRQHandler
-    .thumb_set TIM3_IRQHandler, Default_Handler
+    .word   TIM2_IRQHandler         @TIM2                
+    .weak   TIM2_IRQHandler
+    .thumb_set TIM2_IRQHandler, Default_Handler
 
     .section .text.Reset_Handler
     .weak Reset_Handler

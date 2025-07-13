@@ -7,6 +7,7 @@
 #include "Port_cfg.h"
 #include "Pwm_LCfg.h"
 #include "Pwm.h"
+#include "isr.h"
 /*
 extern uint8_t Pwm_IsInitialized;
 Pwm_IsInitialized = 0;
