@@ -17,11 +17,11 @@ g_pfnVectors:
     .word   0
     .word   0
     .word   0
+    .word   SVC_Handler
+    .word   DebugMon_Handler
     .word   0
-    .word   0
-    .word   0
-    .word   0
-    .word   0
+    .word   PendSV_Handler
+    .word   SysTick_Handler
 
                 @  External Interrupts
     .word   0
@@ -55,10 +55,12 @@ g_pfnVectors:
     .word   TIM2_IRQHandler         @TIM2                
     .weak   TIM2_IRQHandler
     .thumb_set TIM2_IRQHandler, Default_Handler
-
+/*================Default Handler - Stuck here */
     .section .text.Reset_Handler
     .weak Reset_Handler
     .type Reset_Handler, %function
+    Default_Handler:
+    b .
 Reset_Handler:
     ldr     r0, = _sdata
     ldr     r1, = _edata
@@ -75,7 +77,7 @@ Reset_Handler:
     movs    r2, #0
 2:
     cmp     r0, r1
-    it      lt
+    itt      lt
     strlt   r2, [r0], #4
     blt     2b
 
@@ -98,8 +100,17 @@ Reset_Handler:
     .weak UsageFault_Handler
     .thumb_set UsageFault_Handler, Default_Handler
 
-Default_Handler:
-    b .
+    .weak SysTick_Handler
+    .thumb_set SysTick_Handler, Default_Handler
+
+    .weak SVC_Handler
+    .thumb_set SVC_Handler, Default_Handler
+
+    .weak DebugMon_Handler
+    .thumb_set DebugMon_Handler, Default_Handler
+    
+    .weak PendSV_Handler
+    .thumb_set PendSV_Handler, Default_Handler
 
     .section .stack, "a", %progbits
     .word 0x20005000  @ Initial stack pointer value
