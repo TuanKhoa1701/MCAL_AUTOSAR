@@ -15,13 +15,36 @@ void Adc_Init(const Adc_ConfigType *ConfigPtr)
             RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE);
 
         // 3. Init ADC
+        switch(cfg->ClockPrescaler)
+        {
+            case 2:
+                RCC_ADCCLKConfig(RCC_PCLK2_Div2);
+                break;
+            case 4:
+                RCC_ADCCLKConfig(RCC_PCLK2_Div4);
+                break;
+            case 6:
+                RCC_ADCCLKConfig(RCC_PCLK2_Div6);
+                break;
+            case 8:
+                RCC_ADCCLKConfig(RCC_PCLK2_Div8);
+                break;
+            default:
+                RCC_ADCCLKConfig(RCC_PCLK2_Div2); // Mặc định
+                break;
+        }
         ADC_InitTypeDef ADC_InitStructure;
         ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-        // ADC_InitStructure.ADC_ContinuousConvMode = (cfg->ConversionMode == ADC_CONV_MODE_CONTINUOUS) ? ENABLE : DISABLE;
-        ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+        ADC_InitStructure.ADC_ContinuousConvMode = (cfg->ConversionMode == ADC_CONV_MODE_CONTINUOUS) ? ENABLE : DISABLE;
+        //ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
         ADC_InitStructure.ADC_ScanConvMode = DISABLE;
         ADC_InitStructure.ADC_ExternalTrigConv = (cfg->TriggerSource == ADC_TRIGGER_SOFTWARE) ? ADC_ExternalTrigConv_None : cfg->TriggerSource;
-        ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+       
+        if(cfg->ResultAlignment == ADC_RESULT_ALIGNMENT_RIGHT)
+            ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+        else
+            ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Left;
+            
         ADC_InitStructure.ADC_NbrOfChannel = cfg->NumChannels;
 
         if (cfg->AdcInstance == ADC_INSTANCE_1)
