@@ -42,7 +42,7 @@ g_pfnVectors:
     .word   0
     .word   0
     .word   0
-    .word   0
+    .word   ADC1_2_IRQHandler
     .word   0
     .word   0
     .word   0
@@ -53,8 +53,6 @@ g_pfnVectors:
     .word   0
     .word   0                
     .word   TIM2_IRQHandler         @TIM2                
-    .weak   TIM2_IRQHandler
-    .thumb_set TIM2_IRQHandler, Default_Handler
 /*================Default Handler - Stuck here */
     .section .text.Reset_Handler
     .weak Reset_Handler
@@ -111,6 +109,12 @@ Reset_Handler:
     
     .weak PendSV_Handler
     .thumb_set PendSV_Handler, Default_Handler
+
+    .weak   TIM2_IRQHandler
+    .thumb_set TIM2_IRQHandler, Default_Handler
+
+    .weak ADC1_2_IRQHandler
+    .thumb_set ADC1_2_IRQHandler, Default_Handler
 
     .section .stack, "a", %progbits
     .word 0x20005000  @ Initial stack pointer value

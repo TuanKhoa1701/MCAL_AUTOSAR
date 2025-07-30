@@ -22,7 +22,7 @@
 /* ========== MACRO =========== */
 /* ============================= */
 
-#define ADC_MAX_HW 2
+#define ADC_MAX_HW 1
 #define ADC_MAX_GROUPS 2
 #define ADC_BUFFER_SIZE_GROUP_1 4
 #define ADC_BUFFER_SIZE_GROUP_2 4
@@ -38,11 +38,11 @@ typedef uint32_t Adc_ConversionTimeType;
 typedef uint32_t Adc_ChannelType;
 typedef uint32_t Adc_GroupType;
 typedef uint16_t Adc_ValueGroupType;
-typedef uint32_t Adc_SamplingTimeType;
 typedef uint8_t Adc_ResolutionType;
 typedef uint8_t Adc_GroupPriorityType;
 typedef uint8_t Adc_StreamNumberSampleType;
- 
+typedef uint8_t Adc_SamplingTimeType;
+
 typedef enum {
     ADC_GROUP_REPL_ABORT_RESTART = 0,
     ADC_GROUP_REPL_SUSPEND_RESUME = 1,
@@ -138,12 +138,6 @@ typedef struct
     Adc_StreamBufferModeType Adc_StreamBufferMode; /**< Kiểu hoạt động stream */
 } Adc_GroupDefType;
 
-/* ============================= */
-/* ==== Global Config Array ==== */
-/* ============================= */
-
-extern Adc_ConfigType Adc_Configs[ADC_MAX_HW];
-extern Adc_GroupDefType Adc_GroupConfigs[ADC_MAX_GROUPS];
 
 /* ============================= */
 /* ========== API ============= */

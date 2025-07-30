@@ -41,8 +41,8 @@ const Port_PinConfigType PortCfg_Pins[] = {
     {
         .PortNum = PORT_ID_A,
         .PinNum = 1,
-        .Mode = PORT_PIN_MODE_DIO,
-        .Speed = PORT_SPEED_10Mhz, // Tốc độ 10MHz
+        .Mode = PORT_PIN_MODE_ADC,
+        .Speed = PORT_SPEED_50Mhz, // Tốc độ 10MHz
         .Direction = PORT_PIN_IN,
         .DirectionChangeable = 0,
         .Level = PORT_PIN_LEVEL_LOW, /* Không ảnh hưởng nếu là input */

@@ -52,7 +52,7 @@ void DIO_ReadChannel(Dio_ChannelType ChannelId, Dio_LevelType Level)
     GPIO_TypeDef *GPIO_Port;
     uint16_t GIPO_Pin;
 
-    GPIO_Port = zGPIO_GetPort(ChannelId);
+    GPIO_Port = GPIO_GetPort(ChannelId);
     if(GPIO_Port == NULL)
     {
         Det_ReportError(DIO_MODULE_ID, 0, DIO_READCHANNEL_ID, DIO_E_PARAM_INVALID_CHANNEL);

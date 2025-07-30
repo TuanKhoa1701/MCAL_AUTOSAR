@@ -1,7 +1,6 @@
 #include "Adc.h"
 #include "Std_Types.h"
-Adc_ConfigType Adc_Configs[ADC_MAX_HW];
-Adc_GroupDefType Adc_GroupConfigs[ADC_MAX_GROUPS];
+#include "Adc_cfg.h"
 
 void Adc_Init(const Adc_ConfigType *ConfigPtr)
 {
@@ -69,8 +68,8 @@ void Adc_Init(const Adc_ConfigType *ConfigPtr)
         // 6. Enable
         for (uint8_t i = 0; i < ADC_MAX_GROUPS; i++)
         {
-            Adc_GroupConfigs[i].Status = ADC_IDLE;
-            Adc_GroupConfigs[i].Result = NULL;
+            // Adc_GroupConfigs[i].Status = ADC_IDLE;
+            // Adc_GroupConfigs[i].Result = NULL;
         }
     }
 }
@@ -81,15 +80,15 @@ void Adc_DeInit(void)
     ADC_DeInit(ADC2);
     for (uint8_t i = 0; i < ADC_MAX_GROUPS; i++)
     {
-        Adc_GroupConfigs[i].Status = ADC_IDLE;
-        Adc_GroupConfigs[i].Result = NULL;
+        // Adc_GroupConfigs[i].Status = ADC_IDLE;
+        // Adc_GroupConfigs[i].Result = NULL;
     }
 }
 
 void Adc_StartGroupConversion(Adc_GroupType Group)
 {
     Adc_GroupDefType *grp = &Adc_GroupConfigs[Group];
-    grp->Status = ADC_BUSY;
+    //grp->Status = ADC_BUSY;
 
     if (grp->Adc_StreamEnableType == 1)
     {
@@ -142,21 +141,21 @@ Std_ReturnType Adc_ReadGroup(Adc_GroupType Group, Adc_ValueGroupType *DataBuffer
     Adc_GroupDefType *grp = &Adc_GroupConfigs[Group];
     Adc_ConfigType *cfg = &Adc_Configs[grp->AdcInstance];
 
-    if (grp->Status != ADC_BUSY)
-        return E_NOT_OK;
+    // if (grp->Status != ADC_BUSY)
+    //     return E_NOT_OK;
 
     if (grp->AdcInstance == ADC_INSTANCE_1)
         *DataBufferPtr = ADC_GetConversionValue(ADC1);
     else
         *DataBufferPtr = ADC_GetConversionValue(ADC2);
 
-    if (cfg->ConversionMode != ADC_CONV_MODE_CONTINUOUS)
-        grp->Status = ADC_COMPLETED;
-    else
-        grp->Status = ADC_BUSY;
+    // if (cfg->ConversionMode != ADC_CONV_MODE_CONTINUOUS)
+    //     grp->Status = ADC_COMPLETED;
+    // else
+    //     grp->Status = ADC_BUSY;
 
-    if (grp->Result != NULL)
-        grp->Result[0] = *DataBufferPtr;
+    // if (grp->Result != NULL)
+    //     grp->Result[0] = *DataBufferPtr;
 
     return E_OK;
 }
@@ -166,7 +165,7 @@ Std_ReturnType Adc_SetupResultBuffer(Adc_GroupType Group, Adc_ValueGroupType *Da
     if (Group >= ADC_MAX_GROUPS || DataBufferPtr == NULL)
         return E_NOT_OK;
 
-    Adc_GroupConfigs[Group].Result = DataBufferPtr;
+ //   Adc_GroupConfigs[Group].Result = DataBufferPtr;
     return E_OK;
 }
 
@@ -176,7 +175,7 @@ void Adc_DisableHardwareTrigger(Adc_GroupType Group) { (void)Group; }
 void Adc_EnableGroupNotification(Adc_GroupType Group)
 {
     Adc_ConfigType *cfg = &Adc_Configs[Adc_GroupConfigs[Group].AdcInstance];
-    cfg->NotificationEnabled = ADC_NOTIFICATION_ENABLED;
+   // cfg->NotificationEnabled = ADC_NOTIFICATION_ENABLED;
 
     if (Adc_GroupConfigs[Group].AdcInstance == ADC_INSTANCE_1)
     {
@@ -227,29 +226,3 @@ void Adc_GetVersionInfo(Std_VersionInfoType *VersionInfo)
     }
 }
 
-void ADC1_2_IRQHandler(void)
-{
-    for (uint8_t group = 0; group < ADC_MAX_GROUPS; group++)
-    {
-        Adc_GroupDefType *grp = &Adc_GroupConfigs[group];
-        Adc_ConfigType *cfg = &Adc_Configs[grp->AdcInstance];
-
-        if (cfg->NotificationEnabled == ADC_NOTIFICATION_ENABLED)
-        {
-            if (grp->AdcInstance == ADC_INSTANCE_1 && ADC_GetITStatus(ADC1, ADC_IT_EOC))
-            {
-                ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
-
-                if (cfg->InitCallback)
-                    cfg->InitCallback();
-            }
-            else if (grp->AdcInstance == ADC_INSTANCE_2 && ADC_GetITStatus(ADC2, ADC_IT_EOC))
-            {
-                ADC_ClearITPendingBit(ADC2, ADC_IT_EOC);
-
-                if (cfg->InitCallback)
-                    cfg->InitCallback();
-            }
-        }
-    }
-}
