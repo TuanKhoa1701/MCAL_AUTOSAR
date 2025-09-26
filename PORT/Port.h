@@ -7,7 +7,6 @@
  *          kế cho STM32F103 sử dụng SPL.
  * @version 1.0
  * @date    2024-06-19
- * @author  HALA Academy
  **********************************************************/
 
 #ifndef PORT_H
