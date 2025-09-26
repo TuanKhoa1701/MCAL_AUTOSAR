@@ -5,7 +5,6 @@
  * @brief   ADC Driver Configuration Header File (AUTOSAR)
  * @details Cấu hình mô-đun ADC cho STM32F103.
  * @version 1.0
- * @date    2024-06-27
  * @author  Nguyen Tuan Khoa 
  ***********************************************************/
 #include "Adc.h"
