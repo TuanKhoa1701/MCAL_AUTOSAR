@@ -6,8 +6,6 @@
  *          Driver này được thiết kế để điều khiển Timer PWM của STM32F103 
  *          sử dụng thư viện SPL.
  * @version 1.0
- * @date    2024-06-27
- * @author  HALA Academy
  **********************************************************/
 
 #ifndef PWM_H
