@@ -4,8 +4,6 @@
  * @details File này cung cấp các khai báo và định nghĩa cần thiết cho việc khởi tạo,
  *          chuyển đổi, đọc kết quả và quản lý trạng thái của ADC trên vi điều khiển.
  * @version 1.0
- * @date 2024-10-03
- * @author HALA Academy
  **********************************************************/
 
 #ifndef ADC_H
