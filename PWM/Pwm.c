@@ -5,8 +5,6 @@
  *          Quản lý chức năng PWM, không cấu hình chân GPIO.
  * 
  * @version 1.0
- * @date    2024-06-27
- * @author  HALA Academy
  **********************************************************/
 #include "stm32f10x.h"
 #include "stm32f10x_rcc.h"
