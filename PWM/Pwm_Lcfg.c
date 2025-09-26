@@ -3,8 +3,6 @@
  * @brief   PWM Driver Configuration Source File (AUTOSAR)
  * @details Cấu hình các kênh PWM dùng cho STM32F103 (ví dụ: TIM2_CH1/PA0, TIM3_CH2/PA7)
  * @version 1.0
- * @date    2024-06-27
- * @author  HALA Academy
  **********************************************************/
 
 #include "Pwm.h"
