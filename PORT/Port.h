@@ -6,7 +6,6 @@
  *          AUTOSAR cho Port Driver. Driver này được thiết
  *          kế cho STM32F103 sử dụng SPL.
  * @version 1.0
- * @date    2024-06-19
  **********************************************************/
 
 #ifndef PORT_H
